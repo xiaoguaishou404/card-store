@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const dateElement = editor.querySelector('.date');
     const authorElement = editor.querySelector('.author');
     const authorInput = document.getElementById('authorName');
+    const avatarUpload = document.getElementById('avatarUpload');
+    const avatarElement = document.getElementById('avatar');
     const qrLink = document.getElementById('qrLink');
 
     // 属性控制
@@ -232,6 +234,8 @@ document.addEventListener('DOMContentLoaded', function() {
         aspectRatio.value = 'auto';
         authorInput.value = ''; // 清空作者名称
         qrLink.value = ''; // 清空二维码链接
+        avatarUpload.value = ''; // 清空头像
+        avatarElement.innerHTML = ''; // 清空头像显示
         updateCardProperties();
         updateAuthor(); // 更新作者名称
         generateQRCode(''); // 隐藏二维码
@@ -380,6 +384,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 监听作者名称输入
     authorInput.addEventListener('input', updateAuthor);
+
+    // 处理头像上传
+    function handleAvatarUpload(file) {
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                avatarElement.innerHTML = '';
+                avatarElement.appendChild(img);
+                avatarElement.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // 监听头像上传
+    avatarUpload.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        handleAvatarUpload(file);
+    });
 
     // 初始化
     updateDate();
