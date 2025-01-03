@@ -13,8 +13,8 @@
             <div class="template-section">
                 <h3>模板</h3>
                 <div class="template-grid">
-                    <div class="template-item active" data-template="default">
-                        <div class="template-preview">默认</div>
+                    <div class="template-item active" data-template="vertical-blue">
+                        <div class="template-preview">渐变蓝</div>
                     </div>
                     <div class="template-item" data-template="transparent">
                         <div class="template-preview">透明</div>
@@ -69,6 +69,22 @@
                         <input type="number" id="cardHeight" value="0" min="0" max="1000">
                         <span>px</span>
                     </div>
+                </div>
+                <div class="property-item">
+                    <label>旋转角度</label>
+                    <div class="input-group">
+                        <input type="number" id="rotation" value="0" min="-180" max="180">
+                        <span>°</span>
+                    </div>
+                </div>
+                <div class="property-item">
+                    <label>尺寸比例</label>
+                    <select id="aspectRatio" class="select-control">
+                        <option value="auto">自适应</option>
+                        <option value="1:1">1:1</option>
+                        <option value="4:3">4:3</option>
+                        <option value="16:9">16:9</option>
+                    </select>
                 </div>
                 <div class="property-item">
                     <label>圆角</label>

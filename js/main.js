@@ -12,35 +12,53 @@ document.addEventListener('DOMContentLoaded', function() {
     const cardHeight = document.getElementById('cardHeight');
     const borderRadius = document.getElementById('borderRadius');
     const padding = document.getElementById('padding');
+    const rotation = document.getElementById('rotation');
+    const aspectRatio = document.getElementById('aspectRatio');
 
     // 模板系统
     const templates = {
-        default: {
-            background: 'white',
-            textColor: '#333'
+        'vertical-blue': {
+            background: 'linear-gradient(180deg, #4FB8FF 0%, #2E8DE1 100%)',
+            textColor: '#ffffff'
         },
-        transparent: {
+        'transparent': {
             background: 'transparent',
-            textColor: '#333'
+            textColor: '#333333'
         }
     };
 
     // 更新卡片属性
     function updateCardProperties() {
+        // 基础属性
         editor.style.width = `${cardWidth.value}px`;
-        if (parseInt(cardHeight.value) > 0) {
-            editor.style.height = `${cardHeight.value}px`;
-            editor.style.minHeight = `${cardHeight.value}px`;
+        
+        // 高度和比例处理
+        if (aspectRatio.value !== 'auto') {
+            const [w, h] = aspectRatio.value.split(':').map(Number);
+            const calculatedHeight = (cardWidth.value * h) / w;
+            editor.style.height = `${calculatedHeight}px`;
+            editor.style.minHeight = `${calculatedHeight}px`;
+            cardHeight.value = calculatedHeight;
+            cardHeight.disabled = true;
         } else {
-            editor.style.height = 'auto';
-            editor.style.minHeight = '440px';
+            cardHeight.disabled = false;
+            if (parseInt(cardHeight.value) > 0) {
+                editor.style.height = `${cardHeight.value}px`;
+                editor.style.minHeight = `${cardHeight.value}px`;
+            } else {
+                editor.style.height = 'auto';
+                editor.style.minHeight = '440px';
+            }
         }
+
+        // 其他样式
         editor.style.borderRadius = `${borderRadius.value}px`;
         editor.style.padding = `${padding.value}px`;
+        editor.style.transform = `rotate(${rotation.value}deg)`;
     }
 
     // 监听属性变化
-    [cardWidth, cardHeight, borderRadius, padding].forEach(input => {
+    [cardWidth, cardHeight, borderRadius, padding, rotation, aspectRatio].forEach(input => {
         input.addEventListener('input', updateCardProperties);
     });
 
@@ -55,8 +73,19 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.add('active');
 
             // 应用模板样式
+            editor.dataset.template = templateName;
             editor.style.background = template.background;
             editor.style.color = template.textColor;
+
+            // 更新相关元素颜色
+            const elements = editor.querySelectorAll('.date, .word-count, .signature');
+            elements.forEach(el => {
+                el.style.color = templateName === 'vertical-blue' ? 'rgba(255, 255, 255, 0.8)' : '#666';
+            });
+
+            // 更新签名分隔线颜色
+            const signature = editor.querySelector('.signature');
+            signature.style.borderTopColor = templateName === 'vertical-blue' ? 'rgba(255, 255, 255, 0.2)' : '#eee';
         });
     });
 
@@ -86,21 +115,42 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 导出图片
     exportBtn.addEventListener('click', function() {
+        const originalTransform = editor.style.transform;
+        editor.style.transform = 'none'; // 临时移除旋转以便正确导出
+
         html2canvas(editor, {
-            backgroundColor: editor.style.background,
+            backgroundColor: editor.style.background === 'transparent' ? null : editor.style.background,
             scale: 2,
             logging: false,
-            useCORS: true,
-            onclone: function(clonedDoc) {
-                const clonedEditor = clonedDoc.querySelector('#cardEditor');
-                clonedEditor.style.transform = 'none';
-            }
+            useCORS: true
         }).then(canvas => {
+            // 如果需要旋转
+            if (rotation.value !== '0') {
+                const rotatedCanvas = document.createElement('canvas');
+                const ctx = rotatedCanvas.getContext('2d');
+                const angle = parseFloat(rotation.value) * Math.PI / 180;
+                
+                // 计算旋转后的画布大小
+                const sin = Math.abs(Math.sin(angle));
+                const cos = Math.abs(Math.cos(angle));
+                rotatedCanvas.width = canvas.height * sin + canvas.width * cos;
+                rotatedCanvas.height = canvas.height * cos + canvas.width * sin;
+                
+                // 移动到中心点并旋转
+                ctx.translate(rotatedCanvas.width/2, rotatedCanvas.height/2);
+                ctx.rotate(angle);
+                ctx.drawImage(canvas, -canvas.width/2, -canvas.height/2);
+                
+                canvas = rotatedCanvas;
+            }
+
             const link = document.createElement('a');
             link.download = '时光信纸.png';
             link.href = canvas.toDataURL('image/png');
             link.click();
         });
+
+        editor.style.transform = originalTransform; // 恢复旋转
     });
 
     // 重置
@@ -114,10 +164,12 @@ document.addEventListener('DOMContentLoaded', function() {
         cardHeight.value = '0';
         borderRadius.value = '15';
         padding.value = '30';
+        rotation.value = '0';
+        aspectRatio.value = 'auto';
         updateCardProperties();
 
         // 重置模板
-        document.querySelector('.template-item[data-template="default"]').click();
+        document.querySelector('.template-item[data-template="vertical-blue"]').click();
     });
 
     // 监听内容变化
@@ -136,4 +188,6 @@ document.addEventListener('DOMContentLoaded', function() {
     updateWordCount();
     updateCardProperties();
     generateQRCode(window.location.href);
+    // 初始化模板
+    document.querySelector('.template-item[data-template="vertical-blue"]').click();
 }); 
