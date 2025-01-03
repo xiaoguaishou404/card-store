@@ -198,7 +198,7 @@ h3 {
 .signature {
     color: rgba(0, 0, 0, 0.5);
     font-size: 14px;
-    text-align: right;
+    text-align: left;
     margin-top: auto;
     padding-top: 20px;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
