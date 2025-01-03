@@ -20,7 +20,31 @@ document.addEventListener('DOMContentLoaded', function() {
     // 模板系统
     const templates = {
         'vertical-blue': {
-            background: 'linear-gradient(180deg, #4FB8FF 0%, #2E8DE1 100%)',
+            background: 'linear-gradient(180deg, #7CC5FF 0%, #4FB8FF 100%)',
+            textColor: '#ffffff'
+        },
+        'sunset': {
+            background: 'linear-gradient(180deg, #FF8F71 0%, #FF3B3B 100%)',
+            textColor: '#ffffff'
+        },
+        'mint': {
+            background: 'linear-gradient(180deg, #7BE495 0%, #329D9C 100%)',
+            textColor: '#ffffff'
+        },
+        'purple': {
+            background: 'linear-gradient(180deg, #B28DFF 0%, #7C4DFF 100%)',
+            textColor: '#ffffff'
+        },
+        'dark': {
+            background: 'linear-gradient(180deg, #434343 0%, #000000 100%)',
+            textColor: '#ffffff'
+        },
+        'pure-white': {
+            background: '#ffffff',
+            textColor: '#333333'
+        },
+        'pure-black': {
+            background: '#000000',
             textColor: '#ffffff'
         },
         'transparent': {
