@@ -241,9 +241,10 @@ h3 {
 .date {
     color: rgba(0, 0, 0, 0.35);
     font-size: 13px;
-    font-weight: 400;
+    font-weight: 300;
     letter-spacing: 1px;
     margin-bottom: 8px;
+    font-family: 'Noto Sans SC', sans-serif;
 }
 
 /* 标题样式 - 最重的层级 */
@@ -251,10 +252,11 @@ h3 {
     display: flex;
     align-items: center;
     font-size: 32px;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 32px;
     letter-spacing: -0.5px;
     color: rgba(0, 0, 0, 0.95);
+    font-family: 'Noto Serif SC', serif;
 }
 
 .icon {
@@ -274,16 +276,18 @@ h3 {
     letter-spacing: 0.3px;
     margin: 24px 0;
     color: rgba(0, 0, 0, 0.75);
+    font-family: 'Noto Sans SC', sans-serif;
 }
 
 /* 引用样式加强 */
 .content > :first-child {
     font-size: 20px;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.8;
     margin-bottom: 24px;
     letter-spacing: 0.5px;
     color: rgba(0, 0, 0, 0.85);
+    font-family: 'Noto Serif SC', serif;
 }
 
 /* 字数统计 - 辅助信息层级 */
@@ -293,6 +297,8 @@ h3 {
     text-align: right;
     margin: 16px 0;
     letter-spacing: 0.5px;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 300;
 }
 
 /* 签名区域 - 次要信息层级 */
@@ -312,6 +318,7 @@ h3 {
     text-align: left;
     line-height: 1.8;
     flex: 1;
+    font-family: 'Noto Serif SC', serif;
 }
 
 .signature :first-child {
@@ -326,6 +333,8 @@ h3 {
     color: rgba(0, 0, 0, 0.35);
     font-size: 13px;
     letter-spacing: 0.2px;
+    font-weight: 400;
+    font-style: italic;
 }
 
 .qr-code {
