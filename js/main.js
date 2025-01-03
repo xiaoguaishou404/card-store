@@ -122,13 +122,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function generateQRCode(text) {
         if (!text) {
             qrCodeElement.classList.remove('visible');
+            qrCodeElement.innerHTML = '';
             return;
         }
         
         const qr = qrcode(0, 'L');
         qr.addData(text);
         qr.make();
-        qrCodeElement.innerHTML = qr.createImgTag(3);
+        const qrImg = qr.createImgTag(3);
+        // 替换img标签的样式，移除背景色
+        const modifiedQrImg = qrImg.replace('<img', '<img style="background: transparent;"');
+        qrCodeElement.innerHTML = modifiedQrImg;
         qrCodeElement.classList.add('visible');
     }
 
@@ -335,7 +339,6 @@ document.addEventListener('DOMContentLoaded', function() {
     updateDate();
     updateWordCount();
     updateCardProperties();
-    generateQRCode(window.location.href);
     // 初始化模板
     document.querySelector('.template-item[data-template="vertical-blue"]').click();
 }); 
