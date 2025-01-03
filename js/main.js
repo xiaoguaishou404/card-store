@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const content = editor.querySelector('.content');
     const wordCount = editor.querySelector('.word-count');
     const dateElement = editor.querySelector('.date');
+    const qrLink = document.getElementById('qrLink');
 
     // 属性控制
     const cardWidth = document.getElementById('cardWidth');
@@ -119,11 +120,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 生成二维码
     function generateQRCode(text) {
+        if (!text) {
+            qrCodeElement.classList.remove('visible');
+            return;
+        }
+        
         const qr = qrcode(0, 'L');
         qr.addData(text);
         qr.make();
         qrCodeElement.innerHTML = qr.createImgTag(3);
+        qrCodeElement.classList.add('visible');
     }
+
+    // 监听二维码链接输入
+    qrLink.addEventListener('input', function() {
+        const link = this.value.trim();
+        generateQRCode(link);
+    });
 
     // 导出图片
     exportBtn.addEventListener('click', function() {
@@ -178,7 +191,9 @@ document.addEventListener('DOMContentLoaded', function() {
         padding.value = '30';
         rotation.value = '0';
         aspectRatio.value = 'auto';
+        qrLink.value = ''; // 清空二维码链接
         updateCardProperties();
+        generateQRCode(''); // 隐藏二维码
 
         // 重置模板
         document.querySelector('.template-item[data-template="vertical-blue"]').click();

@@ -214,6 +214,7 @@ h3 {
 }
 
 .qr-code {
+    display: none;
     width: 90px;
     height: 90px;
     background: white;
@@ -221,6 +222,10 @@ h3 {
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
     flex-shrink: 0;
+}
+
+.qr-code.visible {
+    display: block;
 }
 
 .qr-code img {
@@ -373,4 +378,23 @@ button:hover {
 .card[data-template="vertical-blue"] .date,
 .card[data-template="vertical-blue"] .word-count {
     color: rgba(255, 255, 255, 0.7);
+}
+
+.text-input {
+    width: 100%;
+    background: #333;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.text-input:focus {
+    outline: none;
+    border-color: #4FB8FF;
+}
+
+.text-input::placeholder {
+    color: #666;
 } 
