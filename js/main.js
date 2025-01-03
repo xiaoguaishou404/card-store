@@ -27,6 +27,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+    // 工具栏按钮
+    const batchCreateBtn = document.getElementById('batchCreateBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const reloadBtn = document.getElementById('reloadBtn');
+    const cutBtn = document.getElementById('cutBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const gridBtn = document.getElementById('gridBtn');
+    const shareBtn = document.getElementById('shareBtn');
+    const duplicateBtn = document.getElementById('duplicateBtn');
+    const togglePanelBtn = document.getElementById('togglePanelBtn');
+
     // 更新卡片属性
     function updateCardProperties() {
         // 基础属性
@@ -181,6 +192,127 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             document.execCommand('insertLineBreak', false, null);
         }
+    });
+
+    // 批量创建功能
+    batchCreateBtn.addEventListener('click', function() {
+        const count = prompt('请输入要创建的卡片数量：', '1');
+        if (count && !isNaN(count) && count > 0) {
+            // TODO: 实现批量创建逻辑
+            alert('批量创建功能即将上线');
+        }
+    });
+
+    // 保存功能
+    saveBtn.addEventListener('click', function() {
+        const cardData = {
+            content: content.innerHTML,
+            template: editor.dataset.template,
+            properties: {
+                width: cardWidth.value,
+                height: cardHeight.value,
+                borderRadius: borderRadius.value,
+                padding: padding.value,
+                rotation: rotation.value,
+                aspectRatio: aspectRatio.value
+            }
+        };
+        localStorage.setItem('cardData', JSON.stringify(cardData));
+        alert('保存成功！');
+    });
+
+    // 重新加载
+    reloadBtn.addEventListener('click', function() {
+        const savedData = localStorage.getItem('cardData');
+        if (savedData) {
+            const cardData = JSON.parse(savedData);
+            content.innerHTML = cardData.content;
+            
+            // 恢复属性
+            const props = cardData.properties;
+            cardWidth.value = props.width;
+            cardHeight.value = props.height;
+            borderRadius.value = props.borderRadius;
+            padding.value = props.padding;
+            rotation.value = props.rotation;
+            aspectRatio.value = props.aspectRatio;
+            
+            // 应用模板
+            document.querySelector(`.template-item[data-template="${cardData.template}"]`).click();
+            
+            // 更新所有属性
+            updateCardProperties();
+            updateWordCount();
+        }
+    });
+
+    // 剪切功能
+    cutBtn.addEventListener('click', function() {
+        document.execCommand('cut');
+    });
+
+    // 复制功能
+    copyBtn.addEventListener('click', function() {
+        document.execCommand('copy');
+    });
+
+    // 网格对齐切换
+    let gridEnabled = false;
+    gridBtn.addEventListener('click', function() {
+        gridEnabled = !gridEnabled;
+        this.classList.toggle('active');
+        editor.style.backgroundImage = gridEnabled ? 
+            'linear-gradient(to right, rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.1) 1px, transparent 1px)' : 
+            'none';
+        editor.style.backgroundSize = gridEnabled ? '20px 20px' : 'auto';
+    });
+
+    // 分享功能
+    shareBtn.addEventListener('click', async function() {
+        try {
+            const canvas = await html2canvas(editor, {
+                backgroundColor: editor.style.background === 'transparent' ? null : editor.style.background,
+                scale: 2,
+                logging: false,
+                useCORS: true
+            });
+            
+            const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+            const file = new File([blob], '时光信纸.png', { type: 'image/png' });
+            
+            if (navigator.share && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                    files: [file],
+                    title: '分享时光信纸',
+                    text: '我用时光信纸创建了一张卡片'
+                });
+            } else {
+                // 降级方案：下载图片
+                const link = document.createElement('a');
+                link.download = '时光信纸.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            }
+        } catch (error) {
+            console.error('分享失败:', error);
+            alert('分享失败，请重试');
+        }
+    });
+
+    // 复制卡片
+    duplicateBtn.addEventListener('click', function() {
+        const clone = editor.cloneNode(true);
+        clone.id = 'cardEditor_' + Date.now();
+        editor.parentNode.appendChild(clone);
+        // TODO: 实现多卡片管理
+        alert('复制功能即将上线');
+    });
+
+    // 切换属性面板
+    togglePanelBtn.addEventListener('click', function() {
+        const panel = document.querySelector('.properties-panel');
+        panel.classList.toggle('hidden');
+        this.classList.toggle('active');
     });
 
     // 初始化

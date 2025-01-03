@@ -13,30 +13,37 @@ body {
 
 .app-container {
     display: flex;
-    min-height: 100vh;
+    flex-direction: column;
+    height: 100vh;
 }
 
 .sidebar {
     width: 240px;
     background-color: #242424;
-    padding: 20px;
     border-right: 1px solid #333;
+    overflow-y: auto;
 }
 
 .main-content {
     flex: 1;
-    padding: 20px;
+    background-color: #1a1a1a;
+    overflow-y: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #1a1a1a;
+    padding: 20px;
 }
 
 .properties-panel {
     width: 280px;
     background-color: #242424;
-    padding: 20px;
     border-left: 1px solid #333;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
+
+.properties-panel.hidden {
+    transform: translateX(100%);
 }
 
 .container {
@@ -280,4 +287,65 @@ button:hover {
 .select-control:focus {
     outline: none;
     border-color: #4FB8FF;
+}
+
+.toolbar {
+    height: 48px;
+    background-color: #242424;
+    border-bottom: 1px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+}
+
+.toolbar-left,
+.toolbar-center,
+.toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tool-btn {
+    height: 32px;
+    padding: 0 12px;
+    background: transparent;
+    border: 1px solid #444;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tool-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.tool-btn svg {
+    opacity: 0.8;
+}
+
+.tool-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #2a2a2a;
+    padding: 4px;
+    border-radius: 6px;
+}
+
+.tool-group .tool-btn {
+    padding: 0 8px;
+    border: none;
+}
+
+.main-wrapper {
+    display: flex;
+    height: calc(100vh - 48px);
+    overflow: hidden;
 } 
