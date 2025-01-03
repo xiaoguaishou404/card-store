@@ -20,34 +20,42 @@ document.addEventListener('DOMContentLoaded', function() {
     // 模板系统
     const templates = {
         'vertical-blue': {
-            background: 'linear-gradient(180deg, #7CC5FF 0%, #4FB8FF 100%)',
+            containerBg: 'linear-gradient(180deg, #7CC5FF 0%, #4FB8FF 100%)',
+            background: 'linear-gradient(180deg, #91D3FF 0%, #63C1FF 100%)',
             textColor: '#ffffff'
         },
         'sunset': {
-            background: 'linear-gradient(180deg, #FF8F71 0%, #FF3B3B 100%)',
+            containerBg: 'linear-gradient(180deg, #FF8F71 0%, #FF3B3B 100%)',
+            background: 'linear-gradient(180deg, #FFA588 0%, #FF5252 100%)',
             textColor: '#ffffff'
         },
         'mint': {
-            background: 'linear-gradient(180deg, #7BE495 0%, #329D9C 100%)',
+            containerBg: 'linear-gradient(180deg, #7BE495 0%, #329D9C 100%)',
+            background: 'linear-gradient(180deg, #8FFFA7 0%, #40B4B3 100%)',
             textColor: '#ffffff'
         },
         'purple': {
-            background: 'linear-gradient(180deg, #B28DFF 0%, #7C4DFF 100%)',
+            containerBg: 'linear-gradient(180deg, #B28DFF 0%, #7C4DFF 100%)',
+            background: 'linear-gradient(180deg, #C4A6FF 0%, #9065FF 100%)',
             textColor: '#ffffff'
         },
         'dark': {
-            background: 'linear-gradient(180deg, #434343 0%, #000000 100%)',
+            containerBg: 'linear-gradient(180deg, #434343 0%, #000000 100%)',
+            background: 'linear-gradient(180deg, #545454 0%, #1a1a1a 100%)',
             textColor: '#ffffff'
         },
         'pure-white': {
+            containerBg: '#f5f5f5',
             background: '#ffffff',
             textColor: '#333333'
         },
         'pure-black': {
-            background: '#000000',
+            containerBg: '#000000',
+            background: '#1a1a1a',
             textColor: '#ffffff'
         },
         'transparent': {
+            containerBg: 'transparent',
             background: 'transparent',
             textColor: '#333333'
         }
@@ -109,7 +117,8 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('.template-item.active').classList.remove('active');
             this.classList.add('active');
 
-            // 应用模板样式
+            // 应用模板样式到容器和卡片
+            container.style.background = template.containerBg;
             editor.dataset.template = templateName;
             editor.style.background = template.background;
             editor.style.color = template.textColor;
@@ -117,12 +126,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // 更新相关元素颜色
             const elements = editor.querySelectorAll('.date, .word-count, .signature');
             elements.forEach(el => {
-                el.style.color = templateName === 'vertical-blue' ? 'rgba(255, 255, 255, 0.8)' : '#666';
+                el.style.color = template.textColor === '#ffffff' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.5)';
             });
 
             // 更新签名分隔线颜色
             const signature = editor.querySelector('.signature');
-            signature.style.borderTopColor = templateName === 'vertical-blue' ? 'rgba(255, 255, 255, 0.2)' : '#eee';
+            signature.style.borderTopColor = template.textColor === '#ffffff' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)';
         });
     });
 
