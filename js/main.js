@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const content = editor.querySelector('.content');
     const wordCount = editor.querySelector('.word-count');
     const dateElement = editor.querySelector('.date');
+    const authorElement = editor.querySelector('.author');
+    const authorInput = document.getElementById('authorName');
     const qrLink = document.getElementById('qrLink');
 
     // 属性控制
@@ -228,8 +230,10 @@ document.addEventListener('DOMContentLoaded', function() {
         padding.value = '30';
         rotation.value = '0';
         aspectRatio.value = 'auto';
+        authorInput.value = ''; // 清空作者名称
         qrLink.value = ''; // 清空二维码链接
         updateCardProperties();
+        updateAuthor(); // 更新作者名称
         generateQRCode(''); // 隐藏二维码
 
         // 重置模板
@@ -367,6 +371,15 @@ document.addEventListener('DOMContentLoaded', function() {
         panel.classList.toggle('hidden');
         this.classList.toggle('active');
     });
+
+    // 更新作者名称
+    function updateAuthor() {
+        const name = authorInput.value.trim();
+        authorElement.textContent = name ? `文 / ${name}` : '文 / 冲冲冲';
+    }
+
+    // 监听作者名称输入
+    authorInput.addEventListener('input', updateAuthor);
 
     // 初始化
     updateDate();

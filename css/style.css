@@ -537,4 +537,53 @@ button:hover {
 
 .text-input::placeholder {
     color: #666;
+}
+
+/* 信息栏样式 */
+.info-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 32px 0;
+    padding: 0 2px;
+}
+
+.author {
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 13px;
+    font-family: 'Noto Serif SC', serif;
+    letter-spacing: 2px;
+    font-weight: 400;
+}
+
+.author::before {
+    content: '';
+    display: inline-block;
+    width: 15px;
+    height: 1px;
+    background-color: currentColor;
+    margin-right: 8px;
+    vertical-align: middle;
+    opacity: 0.6;
+}
+
+.word-count {
+    color: rgba(0, 0, 0, 0.35);
+    font-size: 13px;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+/* 亮色主题适配 */
+.card[data-template="vertical-blue"] .author {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.card[data-template="vertical-blue"] .author::before {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.card[data-template="vertical-blue"] .word-count {
+    color: rgba(255, 255, 255, 0.5);
 } 
