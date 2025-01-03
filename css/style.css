@@ -94,6 +94,11 @@ h3 {
     position: relative;
 }
 
+.template-preview span {
+    position: relative;
+    z-index: 1;
+}
+
 .template-preview::after {
     content: '';
     position: absolute;
@@ -103,6 +108,7 @@ h3 {
     bottom: 4px;
     border-radius: 4px;
     transition: all 0.3s;
+    z-index: 0;
 }
 
 /* 模板预览样式 */
