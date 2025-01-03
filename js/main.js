@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const editor = document.getElementById('cardEditor');
+    const container = editor.closest('.container');
     const qrCodeElement = document.getElementById('qrCode');
     const exportBtn = document.getElementById('exportBtn');
     const resetBtn = document.getElementById('resetBtn');
@@ -41,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 更新卡片属性
     function updateCardProperties() {
         // 基础属性
-        editor.style.width = `${cardWidth.value}px`;
+        container.style.width = `${cardWidth.value}px`;
         
         // 高度和比例处理
         if (aspectRatio.value !== 'auto') {
@@ -65,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 其他样式
         editor.style.borderRadius = `${borderRadius.value}px`;
         editor.style.padding = `${padding.value}px`;
-        editor.style.transform = `rotate(${rotation.value}deg)`;
+        container.style.transform = `rotate(${rotation.value}deg)`;
     }
 
     // 监听属性变化
@@ -126,11 +127,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 导出图片
     exportBtn.addEventListener('click', function() {
-        const originalTransform = editor.style.transform;
-        editor.style.transform = 'none'; // 临时移除旋转以便正确导出
+        const originalTransform = container.style.transform;
+        container.style.transform = 'none'; // 临时移除旋转以便正确导出
 
-        html2canvas(editor, {
-            backgroundColor: editor.style.background === 'transparent' ? null : editor.style.background,
+        html2canvas(container, {
+            backgroundColor: null,
             scale: 2,
             logging: false,
             useCORS: true
@@ -161,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
             link.click();
         });
 
-        editor.style.transform = originalTransform; // 恢复旋转
+        container.style.transform = originalTransform; // 恢复旋转
     });
 
     // 重置

@@ -47,11 +47,11 @@ body {
 }
 
 .container {
-    max-width: 500px;
-    width: 100%;
+    width: 440px;
     background: linear-gradient(180deg, #4FB8FF 0%, #2E8DE1 100%);
     padding: 20px;
     border-radius: 16px;
+    margin: 0 auto;
 }
 
 h3 {
@@ -149,7 +149,7 @@ h3 {
 }
 
 .card {
-    width: 440px;
+    width: 100%;
     min-height: 440px;
     padding: 30px;
     background: white;
